@@ -13,13 +13,14 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 const db = require("./app/models");
 const Role = db.role;
- 
+
+/*
 db.sequelize.sync({force:true})
-    .then(()=>{
+    .then(()=>{ 
         console.log("Drop and Resync Db");        
         initial()
     });
-
+*/
 
 app.get('/',(req,res)=>{ res.json({messsage:'Welcome to abcdatoz app'}) })
 
