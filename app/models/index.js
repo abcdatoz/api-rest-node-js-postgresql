@@ -34,6 +34,7 @@ db.comment = require("..//models/commentModel.js")(sequelize, Sequelize);
 
 db.grupo = require("../models/grupoModel.js")(sequelize,Sequelize);
 db.producto = require("../models/productoModel.js")(sequelize, Sequelize);
+db.articulo = require("../models/articuloModel.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user,{ 
     through: "user_roles",
@@ -72,14 +73,9 @@ db.comment.belongsTo(db.solution);
 db.grupo.hasMany(db.producto);
 db.producto.belongsTo(db.grupo);
 
-/*
-db.bug.hasMany(db.solution, { foreignKey: "bugId", as: "bugSolutions"});
-db.solution.belongsTo(db.bug, {foreignKey:"bugId", onDelete: "CASCADE"});
 
-db.solution.hasMany(db.comment,{ foreignKey: "solutionId", as: "solutionComments"});
-db.comment.belongsTo(db.solution, {foreignKey: "solutionId", onDelete:"CASCADE"});
-*/
-
+db.producto.hasMany(db.articulo)
+db.articulo.belongsTo(db.producto)
 
 
 
