@@ -5,26 +5,22 @@ const {isEmpty} = require('../helpers/validations')
 const { status, successMessage, errorMessage } = require('../helpers/status')
 
 
-const getArticulos = async(req,res)=>{
-    try{
+const getArticulos = async(req,res, next)=>{
+    
 
-        const result = await  Articulo.findAll({})
+        const result = await  Articulo.findAll({}).catch(next)
 
         successMessage.data  = result 
         res.status(status.success).send(successMessage)
 
-    }catch(e){
-        console.log(e)
-        errorMessage.error = e 
-        res.status(status.bad).send(errorMessage)
-    }
+    
 
 }
 
 
-const getArticulosById = async(req,res)=>{
-    try{
-        const result = await Articulo.findByPk(req.params.id)
+const getArticulosById = async(req,res, next)=>{
+    
+        const result = await Articulo.findByPk(req.params.id).catch(next)
 
         if (result){
             successMessage.data = result
@@ -34,19 +30,10 @@ const getArticulosById = async(req,res)=>{
             errorMessage.error = 'El registro no fue localizado en la BD'
             res.status(status.bad).send(errorMessage)
         }
-
-    }catch(e){
-        console.log(e)
-        errorMessage.error = e 
-        res.status(status.bad).send(errorMessage)
-        
-    }
-
 }
 
 
-const createArticulo = async(req,res)=>{
-        try{
+const createArticulo = async(req,res,next)=>{        
 
             const {clave, nombre, partida, precio, firstBuy, lastBuy, producto } = req.body
 
@@ -70,20 +57,14 @@ const createArticulo = async(req,res)=>{
                 firstBuy: firstBuy,
                 lastBuy: lastBuy,
                 productoId: producto
-            })
+            }).catch(next)
 
             successMessage.data = result
             res.status(status.success).send(successMessage)
-
-        }catch(e){
-            console.log = e
-            errorMessage.error = e
-            res.status(status.bad).send(errorMessage)
-        }
+         
 }
 
-const updateArticulo =async (req,res)=>{
-    try{
+const updateArticulo =async (req,res, next)=>{
 
         const {clave, nombre, partida, precio, firstBuy, lastBuy, producto } = req.body
 
@@ -99,7 +80,7 @@ const updateArticulo =async (req,res)=>{
                 res.status(status.bad).send(errorMessage)
             }
 
-            const registro = await Articulo.findByPk(req.params.id)
+            const registro = await Articulo.findByPk(req.params.id).catch(next)
             if(registro){
 
                 const result = await registro.update({
@@ -110,7 +91,7 @@ const updateArticulo =async (req,res)=>{
                                                     firstBuy: firstBuy,
                                                     lastBuy: lastBuy,
                                                     productoId: producto
-                                                })
+                                                }).catch(next)
 
                 successMessage.data = result
                 res.status(status.success).send(successMessage)
@@ -121,32 +102,24 @@ const updateArticulo =async (req,res)=>{
             }
 
 
-    }catch(e){
-        errorMessage.error =e 
-        res.status(status.bad).send(errorMessage)
-    }
+   
 }
 
 
-const deleteArticulo = async(req,res)=>{
-    try{
+const deleteArticulo = async(req,res,next)=>{
+    
 
         const result = await Articulo.destroy({
             where: {
                 id: req.params.id
             }
-        })
+        }).catch(next)
 
 
         successMessage.data =result 
         res.status(status.success).send(successMessage)
 
-    }catch(e){
-        console.log(e)
-        errorMessage.error = e 
-        res.status(status.bad).send(errorMessage)
-
-    }
+    
 }
 
 

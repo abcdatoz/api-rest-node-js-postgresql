@@ -51,11 +51,11 @@ db.user.belongsToMany(db.role,{
 
 console.log(db)
 
-db.user.hasMany(db.bug);
-db.user.hasMany(db.solution);
-db.user.hasMany(db.comment);
-db.user.hasMany(db.grupo);
-db.user.hasMany(db.producto);
+db.user.hasMany(db.bug,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.solution,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.comment, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.grupo,   { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.producto,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 
 db.bug.belongsTo(db.user);
 db.solution.belongsTo(db.user);
@@ -64,17 +64,17 @@ db.grupo.belongsTo(db.user);
 db.producto.belongsTo(db.user);
 
 
-db.bug.hasMany(db.solution);
-db.solution.hasMany(db.comment);
+db.bug.hasMany(db.solution,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.solution.hasMany(db.comment, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 
 db.solution.belongsTo(db.bug);
 db.comment.belongsTo(db.solution);
 
-db.grupo.hasMany(db.producto);
+db.grupo.hasMany(db.producto,   { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 db.producto.belongsTo(db.grupo);
 
 
-db.producto.hasMany(db.articulo)
+db.producto.hasMany(db.articulo, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' })
 db.articulo.belongsTo(db.producto)
 
 

@@ -5,27 +5,20 @@ const {isEmpty} = require('../helpers/validations');
 const  {status, successMessage, errorMessage } = require('../helpers/status');
 
 
-const getGrupos = async (req, res) => {
+const getGrupos = async (req, res, next) => {
     
-    try{
-        const results = await Grupo.findAll({})
+    
+    const results = await Grupo.findAll({}).catch(next)
 
-        successMessage.data = results
-        return res.status(status.success).send(successMessage)
-    }
-    catch(e){      
-        console.log(e) 
-        errorMessage.error = e
-        return res.status(status.bad).send(errorMessage)
-    }
+    successMessage.data = results
+    return res.status(status.success).send(successMessage)
+
 }
 
 
-const getGrupoById = async (req, res) => {
+const getGrupoById = async (req, res, next) => {
     
-    try{
-
-        const results = await Grupo.findByPk(req.params.id)
+        const results = await Grupo.findByPk(req.params.id).catch(next)
 
         if (results){
             successMessage.data = results
@@ -35,19 +28,12 @@ const getGrupoById = async (req, res) => {
             return res.status(status.bad).send(errorMessage)
         }        
 
-    }
-    catch(e){      
-        console.log(e) 
-        errorMessage.error = e
-        return res.status(status.bad).send(errorMessage)
-    }
+
 }
 
 
 
-const createGrupo = async (req,res) => {
-
-    try{   
+const createGrupo = async (req,res, next) => {
 
         const {clave, nombre} = req.body;
 
@@ -60,29 +46,25 @@ const createGrupo = async (req,res) => {
             clave: clave,
             nombre: nombre,
             userId: req.userId
-        })
+        }).catch(next)
 
         
         successMessage.data = results
         return res.status(status.created).send(successMessage)
 
-    }catch(e){       
-        errorMessage.error = e
-        return res.status(status.bad).send(errorMessage)
-    }
 }
 
-const updateGrupo = async (req,res)=>{
-    try{
+const updateGrupo = async (req,res, next)=>{
+    
         const {clave, nombre} = req.body
 
-        const registro = await Grupo.findByPk(req.params.id)
+        const registro = await Grupo.findByPk(req.params.id).catch(next)
         
         if(registro){
             const results = await registro.update({
                 clave: clave,
                 nombre: nombre,
-            })
+            }).catch(next)
 
             successMessage.data = results
             return res.status(status.success).send(successMessage)
@@ -90,36 +72,21 @@ const updateGrupo = async (req,res)=>{
             return res.status(status.nocontent)
         }
         
-    }
-    catch(e){
-        console.log(e)
-        errorMessage.error=e
-        return res.status(status.bad).send(errorMessage)
-        
-    }
+    
 }
 
-const deleteGrupo = async (req,res)=> {
+const deleteGrupo = async (req,res, next)=> {
 
-     try{
+    const results = await Grupo.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).catch(next)
 
-            
-            const results = await Grupo.destroy({
-                where: {
-                    id: req.params.id
-                }
-            })
+    successMessage.data = results
+    return res.status(status.success).send(successMessage)
 
-            successMessage.data = results
-            return res.status(status.success).send(successMessage)
 
-    }
-    catch(e){
-        console.log(e)
-        errorMessage.error=e
-        return res.status(status.bad).send(errorMessage)
-        
-    }
 }
 
 

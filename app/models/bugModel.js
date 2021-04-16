@@ -1,23 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
     const Bug = sequelize.define("bugs",{
-        id:{
-            type: Sequelize.INTEGER,
-            primaryKey: true
-        },
 
-        name:{
-            type: Sequelize.STRING
-        },
-
-        image:{
-            type: Sequelize.STRING
-        },
-        date: {
-            type: Sequelize.DATE
-        }
+        bug_address:    { type: Sequelize.STRING },
+        bug_description:{ type: Sequelize.STRING },
+        bug_image:      { type: Sequelize.STRING },
+        bug_date:       { type: Sequelize.DATE },
+        bug_status:     { type: Sequelize.INTEGER }
     });
 
- 
-
     return Bug;
+    
 }
