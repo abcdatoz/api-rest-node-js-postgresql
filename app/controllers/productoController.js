@@ -11,8 +11,8 @@ const getProductos = async(req,res, next) => {
 
     const result = await Producto.findAll({}).catch(next)
 
-    successMessage.data = result
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 
 }
 
@@ -22,8 +22,8 @@ const getProductoById = async(req,res, next)=>{
     const results = await Producto.findByPk(req.params.id).catch(next)
 
     if (results){
-        successMessage.data = results 
-        res.status(status.success).send(successMessage)
+        
+        res.status(status.success).send(results )
 
     }else{
         errorMessage.error = 'El registro no fue localizado en la BD'
@@ -50,8 +50,8 @@ const createProducto = async(req,res,next) => {
         userId: req.userId
     }).catch(next)
 
-    successMessage.data = result
-    res.status(status.created).send(successMessage) 
+    
+    res.status(status.created).send(result) 
 }
 
 
@@ -68,8 +68,8 @@ const updateProducto = async(req,res,next) => {
             grupo: grupo
         }).catch(next)
 
-        successMessage.data = result 
-        res.status(status.success).send(successMessage)
+        
+        res.status(status.success).send(result )
 
     }else{
         errorMessage.error = 'El registro no fue localizado en la BD'
@@ -86,8 +86,8 @@ const deleteProducto = async(req,res,next) => {
             }
         }).catch(next)
 
-        successMessage.data = result
-        res.status(status.success).send(successMessage)
+        
+        res.status(status.success).send(result)
 
 }
 

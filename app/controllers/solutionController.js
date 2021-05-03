@@ -8,8 +8,8 @@ const { status, successMessage, errorMessage } = require('../helpers/status')
 const getSolutions = async(req,res,next) => {
     const result = await Solution.findAll({}).catch(next)
 
-    successMessage.data = result
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 }
 
 
@@ -17,8 +17,8 @@ const getSolutionById = async(req,res,next) => {
     const result = await Solution.findByPk(req.params.id).catch(next)
 
     if (result){
-        successMessage.data = result 
-        return res.status(status.success).send(successMessage)
+        
+        return res.status(status.success).send(result )
     }else{
         errorMessage.error = 'El registro no fue localizado en la base de datos'
         return res.status(status.bad).send(errorMessage)
@@ -50,8 +50,8 @@ const createSolution = async (req,res,next) =>{
         userId: req.userId
     }).catch(next)
 
-    successMessage.data = result
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 }
 
 
@@ -74,8 +74,8 @@ const updateSolution = async (req,res,next) => {
             file: file
         }).catch(next)
 
-        successMessage.data =result 
-        return res.status(status.success).send(successMessage)
+        
+        return res.status(status.success).send(result)
     }else{
         errorMessage.error = 'El registro no fue localizado'
         return res.status(status.bad).send(errorMessage)
@@ -91,8 +91,8 @@ const deleteSolution = async(req,res,next)=>{
         }
     }).catch(next)
 
-    successMessage.data =result 
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 }
 
 

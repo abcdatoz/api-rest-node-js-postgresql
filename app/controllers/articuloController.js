@@ -10,8 +10,10 @@ const getArticulos = async(req,res, next)=>{
 
         const result = await  Articulo.findAll({}).catch(next)
 
-        successMessage.data  = result 
-        res.status(status.success).send(successMessage)
+        //successMessage.data  = result 
+        //res.status(status.success).send(successMessage)
+
+        res.status(status.success).send(result)
 
     
 
@@ -23,8 +25,8 @@ const getArticulosById = async(req,res, next)=>{
         const result = await Articulo.findByPk(req.params.id).catch(next)
 
         if (result){
-            successMessage.data = result
-            res.status(status.success).send(successMessage)
+            
+            res.status(status.success).send(result)
 
         }else{
             errorMessage.error = 'El registro no fue localizado en la BD'
@@ -59,8 +61,8 @@ const createArticulo = async(req,res,next)=>{
                 productoId: producto
             }).catch(next)
 
-            successMessage.data = result
-            res.status(status.success).send(successMessage)
+            
+            res.status(status.success).send(result)
          
 }
 
@@ -92,9 +94,8 @@ const updateArticulo =async (req,res, next)=>{
                                                     lastBuy: lastBuy,
                                                     productoId: producto
                                                 }).catch(next)
-
-                successMessage.data = result
-                res.status(status.success).send(successMessage)
+                
+                res.status(status.success).send(result)
 
             }else{
                 errorMessage.error = 'El registro no fue localizado en la BD'
@@ -116,8 +117,8 @@ const deleteArticulo = async(req,res,next)=>{
         }).catch(next)
 
 
-        successMessage.data =result 
-        res.status(status.success).send(successMessage)
+        
+        res.status(status.success).send(result)
 
     
 }

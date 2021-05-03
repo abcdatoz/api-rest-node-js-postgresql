@@ -17,9 +17,8 @@ const getComments = async(req,res,next) => {
 const getCommentById = async(req,res,next) => {
     const result = await Comment.findByPk(req.params.id).catch(next)
 
-    if (result){
-        successMessage.data = result 
-        return res.status(status.success).send(successMessage)
+    if (result){        
+        return res.status(status.success).send(result)
     }else{
         errorMessage.error = 'El registro no fue localizado en la base de datos'
         return res.status(status.bad).send(errorMessage)
@@ -46,9 +45,8 @@ const createComment = async (req,res,next) =>{
         solutionId: solutionId,
         userId: req.userId
     }).catch(next)
-
-    successMessage.data = result
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 }
 
 
@@ -66,9 +64,8 @@ const updateComment = async (req,res,next) => {
         const result =  await Solution.update({
             message: message
         }).catch(next)
-
-        successMessage.data =result 
-        return res.status(status.success).send(successMessage)
+        
+        return res.status(status.success).send(result )
     }else{
         errorMessage.error = 'El registro no fue localizado'
         return res.status(status.bad).send(errorMessage)
@@ -84,8 +81,8 @@ const deleteComment = async(req,res,next)=>{
         }
     }).catch(next)
 
-    successMessage.data =result 
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result )
 }
 
 

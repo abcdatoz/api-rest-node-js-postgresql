@@ -10,8 +10,8 @@ const getGrupos = async (req, res, next) => {
     
     const results = await Grupo.findAll({}).catch(next)
 
-    successMessage.data = results
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(results)
 
 }
 
@@ -20,9 +20,8 @@ const getGrupoById = async (req, res, next) => {
     
         const results = await Grupo.findByPk(req.params.id).catch(next)
 
-        if (results){
-            successMessage.data = results
-            return res.status(status.success).send(successMessage)
+        if (results){            
+            return res.status(status.success).send(results)
         }else{            
             errorMessage.error = 'el registro no fue localizado'
             return res.status(status.bad).send(errorMessage)
@@ -66,8 +65,9 @@ const updateGrupo = async (req,res, next)=>{
                 nombre: nombre,
             }).catch(next)
 
-            successMessage.data = results
-            return res.status(status.success).send(successMessage)
+            
+            return res.status(status.success).send(results)
+
         }else{
             return res.status(status.nocontent)
         }
@@ -83,8 +83,8 @@ const deleteGrupo = async (req,res, next)=> {
         }
     }).catch(next)
 
-    successMessage.data = results
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(results)
 
 
 }

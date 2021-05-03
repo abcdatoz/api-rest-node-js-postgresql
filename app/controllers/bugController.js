@@ -9,9 +9,7 @@ const getBugs = async (req,res,next ) => {
 
     const result = await Bug.findAll({}).catch(next)
   
-
-    successMessage.data = result
-    return res.status(status.success).send(successMessage)    
+    return res.status(status.success).send(result)    
 
 }
 
@@ -20,8 +18,8 @@ const getBugById = async (req,res,next)=>{
     const result = await Bug.findByPk(req.params.id).catch(next)
 
     if (result){
-        successMessage.data = result
-        return res.status(status.success).send(successMessage)
+        
+        return res.status(status.success).send(result)
 
     }else{
         errorMessage.error = 'El registro no fue localizado'
@@ -53,26 +51,42 @@ const createBug = async(req,res,next)=> {
         userId: req.userId
     }).catch(next)
 
-    successMessage.data = result 
-    return res.status(status.success).send(successMessage)
+    
+    return res.status(status.success).send(result)
 }
 
-const removeBug = async(req,res,next)=> {
+
+const updateBug = async(req,res,next)=>{
+    const {bug_address, bug_description, bug_image}  = req.body
 
     const registro = await Bug.findByPk(req.params.id).catch(next)
 
-    if(registro){
+    if (registro){
+        const result = registro.update({
+            bug_address: bug_address,
+            bug_description: bug_description,
+            bug_image: bug_image,
+        }).catch(next)
 
-        const result = registro.update({ bug_status : 0}).catch(next)
-        
-        successMessage.data = result 
-        return res.status(status.success).send(successMessage)
-
-
+        return res.status(status.success).send(result)
     }else{
-        errorMessage.error = 'El registro no fue localizado en la bd'
-        return res.status(status.bad).send(errorMessage)
+        return res.status(status.nocontent)
     }
+}
+
+
+const removeBug = async(req,res,next)=> {
+
+
+
+    const result = await Bug.destroy({
+        where: {
+            id : req.params.id
+        }
+    }).catch(next)
+        
+    return res.status(status.success).send(result)
+
 
 }
 
@@ -83,5 +97,6 @@ module.exports = {
     getBugs: getBugs,
     getBugById: getBugById,
     createBug: createBug,
+    updateBug: updateBug,
     removeBug: removeBug
 }
