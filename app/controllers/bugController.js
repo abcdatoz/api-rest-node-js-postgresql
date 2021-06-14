@@ -1,7 +1,9 @@
 const db = require('../models')
 const Bug = db.bug
 
-const { isEmpty} = require('../helpers/validations')
+
+
+const { isEmpty } = require('../helpers/validations')
 const {status, successMessage, errorMessage} = require('../helpers/status')
 
 
@@ -31,11 +33,18 @@ const getBugById = async (req,res,next)=>{
 
 const createBug = async(req,res,next)=> {
     const {bug_address, bug_description, bug_image, bug_date}  = req.body
+
     
-    
+    console.log(bug_address)
+    console.log(bug_description)
+    console.log(bug_date)
+    console.log(req.file.filename)
+
+ 
+     
     if( isEmpty(bug_address) 
         || isEmpty(bug_description)
-        || isEmpty(bug_image)
+        || isEmpty(req.file.filename)
         || isEmpty(bug_date)
         ){
         errorMessage.error ='Todos los campos son requeridos'
@@ -45,7 +54,7 @@ const createBug = async(req,res,next)=> {
     const result =  await Bug.create({
         bug_address: bug_address,
         bug_description: bug_description,
-        bug_image: bug_image,
+        bug_image: req.file.filename,
         bug_date: bug_date,
         bug_status: 1,
         userId: req.userId
@@ -62,11 +71,12 @@ const updateBug = async(req,res,next)=>{
     const registro = await Bug.findByPk(req.params.id).catch(next)
 
     if (registro){
-        const result = registro.update({
+        const result = await registro.update({
             bug_address: bug_address,
             bug_description: bug_description,
             bug_image: bug_image,
         }).catch(next)
+        
 
         return res.status(status.success).send(result)
     }else{
