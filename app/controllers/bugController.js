@@ -32,7 +32,7 @@ const getBugById = async (req,res,next)=>{
 
 
 const createBug = async(req,res,next)=> {
-    const {bug_address, bug_description, bug_image, bug_date}  = req.body
+    const {bug_address, bug_description, bug_image, bug_date, bug_sistema}  = req.body
 
     
     console.log(bug_address)
@@ -57,6 +57,7 @@ const createBug = async(req,res,next)=> {
         bug_image: req.file.filename,
         bug_date: bug_date,
         bug_status: 1,
+        bug_sistema: bug_sistema,
         userId: req.userId
     }).catch(next)
 
