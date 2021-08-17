@@ -19,6 +19,6 @@ module.exports = function (app){
     app.get('/api/bugs/',[authJwt.verifyToken], x.getBugs)
     app.get('/api/bugs/:id',[authJwt.verifyToken], x.getBugById)
     app.post('/api/bugs/',[authJwt.verifyToken, upload.single('bug_image')], x.createBug)
-    app.put('/api/bugs/:id',[authJwt.verifyToken], x.updateBug)
+    app.put('/api/bugs/:id',[authJwt.verifyToken, upload.single('bug_image')], x.updateBug)
     app.delete('/api/bugs/:id',[authJwt.verifyToken],x.removeBug)
 }

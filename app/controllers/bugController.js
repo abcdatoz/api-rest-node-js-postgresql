@@ -1,6 +1,9 @@
 const db = require('../models')
 const Bug = db.bug
 
+const fs = require('fs')
+const path = require ('path')
+
 
 
 const { isEmpty } = require('../helpers/validations')
@@ -32,16 +35,8 @@ const getBugById = async (req,res,next)=>{
 
 
 const createBug = async(req,res,next)=> {
-    const {bug_address, bug_description, bug_image, bug_date, bug_sistema}  = req.body
-
-    
-    console.log(bug_address)
-    console.log(bug_description)
-    console.log(bug_date)
-    console.log(req.file.filename)
-
- 
-     
+    const {bug_address, bug_description, bug_date, bug_sistema}  = req.body
+      
     if( isEmpty(bug_address) 
         || isEmpty(bug_description)
         || isEmpty(req.file.filename)
@@ -67,17 +62,32 @@ const createBug = async(req,res,next)=> {
 
 
 const updateBug = async(req,res,next)=>{
-    const {bug_address, bug_description, bug_image}  = req.body
+    const {bug_address, bug_description}  = req.body
 
     const registro = await Bug.findByPk(req.params.id).catch(next)
 
+ 
+
     if (registro){
+ 
+        
+        let ruta = path.resolve()
+        ruta = ruta + '\\public\\uploads\\' + registro.bug_image
+         
         const result = await registro.update({
             bug_address: bug_address,
-            bug_description: bug_description,
-            bug_image: bug_image,
+            bug_description: bug_description,            
+            bug_image: req.file.filename,
         }).catch(next)
+
         
+        
+
+        try {
+            fs.unlinkSync(ruta);
+        } catch (e) {}
+    
+
 
         return res.status(status.success).send(result)
     }else{
@@ -85,9 +95,22 @@ const updateBug = async(req,res,next)=>{
     }
 }
 
+// const  getFilesInDirectory = () => {
+//     console.log("\nFiles present in directory:");
+//     let files = fs.readdirSync(path.resolve());
+//     let filesz = fs.readdirSync(__dirname);
+//     files.forEach(file => {
+//       console.log(file);
+//     });
+// }
 
 const removeBug = async(req,res,next)=> {
 
+
+    const registro = await Bug.findByPk(req.params.id).catch(next)
+
+    let ruta = path.resolve()
+    ruta = ruta + '\\public\\uploads\\' + registro.bug_image
 
 
     const result = await Bug.destroy({
@@ -95,9 +118,18 @@ const removeBug = async(req,res,next)=> {
             id : req.params.id
         }
     }).catch(next)
-        
-    return res.status(status.success).send(result)
 
+
+
+    try {
+        fs.unlinkSync(ruta);
+    } catch (e) {}
+
+
+ 
+    return res.status(200).send('la imagen se borro');    
+
+   
 
 }
 
