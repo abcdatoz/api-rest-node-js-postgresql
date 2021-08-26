@@ -1,6 +1,8 @@
 const db = require('../models')
 const Solution = db.solution
 
+const fs = require('fs')
+const path = require ('path')
 
 const { isEmpty } = require('../helpers/validations')
 const { status, successMessage, errorMessage } = require('../helpers/status')
@@ -26,11 +28,15 @@ const getSolutionById = async(req,res,next) => {
 
 }
 
-const createSolution = async (req,res,next) =>{
-    const {description, query, image, file, bugId} = req.body
 
+
+
+const createSolution = async (req,res,next) =>{
+    const {description, query, image, bugId} = req.body
+
+    
     if (isEmpty(description) ){
-            errorMessage.error = 'El campo de descripcion es requerido'
+            errorMessage.error = 'El campo de descripción es requerido'
             return res.status(status.bad).send(errorMessage)
     }
 
@@ -44,12 +50,12 @@ const createSolution = async (req,res,next) =>{
     const result = await Solution.create({
         description: description,
         query: query,
-        image: image,
-        file: file,
+        image: req.file.filename,        
         bugId: bugId,
         userId: req.userId
     }).catch(next)
 
+    
     
     return res.status(status.success).send(result)
 }
@@ -64,18 +70,33 @@ const updateSolution = async (req,res,next) => {
             return res.status(status.bad).send(errorMessage)
     }
 
+    
     const registro = await Solution.findByPk(req.params.id).catch(next)
 
     if (registro) {
-        const result =  await Solution.update({
+
+        let ruta = path.resolve()
+        ruta = ruta + '\\public\\uploads\\' + registro.image
+
+
+        
+
+        const result =  await registro.update({
             description: description,
             query: query,
-            image: image,
-            file: file
+            image: req.file.filename        
         }).catch(next)
 
         
+
+        try {
+            fs.unlinkSync(ruta);
+        } catch (e) {}
+
+        
         return res.status(status.success).send(result)
+
+
     }else{
         errorMessage.error = 'El registro no fue localizado'
         return res.status(status.bad).send(errorMessage)
@@ -84,6 +105,12 @@ const updateSolution = async (req,res,next) => {
 
 
 const deleteSolution = async(req,res,next)=>{
+
+    const registro = await Solution.findByPk(req.params.id).catch(next)
+
+    let ruta = path.resolve()
+    ruta = ruta + '\\public\\uploads\\' + registro.image
+
     
     const result = await Solution.destroy({
         where: {
@@ -91,8 +118,13 @@ const deleteSolution = async(req,res,next)=>{
         }
     }).catch(next)
 
+    try {
+        fs.unlinkSync(ruta);
+    } catch (e) {}
+
     
-    return res.status(status.success).send(result)
+    
+    return res.status(200).send('se elimino la solucion y su imagen adjunta');    
 }
 
 

@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Solution = sequelize.define("solutions", {
         description:{
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         query:{
             type: Sequelize.TEXT
