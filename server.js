@@ -18,6 +18,12 @@ const db = require("./app/models");
 const Role = db.role;
 
 
+db.sequelize.sync({force:true})
+     .then(()=>{ 
+         console.log("Drop and Resync Db");        
+          initial()
+     });
+
 /*
  db.sequelize.sync({force:true})
      .then(()=>{ 
@@ -59,58 +65,7 @@ require('./app/routes/commentRoutes')(app)
 
 
 
-
-// https://www.w3jar.com/node-file-upload-with-express-js/       this  works for images
-//const fs = require('fs');
-//const fileupload =require('express-fileupload')
-//const path = require ('path')
-
-// app.use(fileupload({
-//     useTempFiles: true,
-//     tempFileDir: path.join(__dirname,'tmp')
-// }))
-
-
-
-// app.post('/api/upload', (req,res) => {
-
-//     if (!req.files || Object.keys(req.files).length === 0) {
-//         return res.status(400).send('No files were uploaded.');
-//     }
-
-//     let targetFile = req.files.target_file;
-//     let extName = path.extname(targetFile.name);
-//     let baseName = path.basename(targetFile.name, extName);
-//     let uploadDir = path.join(__dirname, 'uploads', targetFile.name);
-
-    
-//     let imgList = ['.png','.jpg','.jpeg','.gif'];
-//     // Checking the file type
-//     if(!imgList.includes(extName)){
-//         fs.unlinkSync(targetFile.tempFilePath);
-//         return res.status(422).send("Invalid Image");
-//     }
-    
-    
-//     if(targetFile.size > 1048576){
-//         fs.unlinkSync(targetFile.tempFilePath);
-//         return res.status(413).send("File is too Large");
-//     }
-
-//     // Renaming the file
-//     let num = 1;
-//     while(fs.existsSync(uploadDir)){
-//         uploadDir = path.join(__dirname, 'uploads', baseName + '-' + num + extName);
-//         num++;
-//     }
-
-//     targetFile.mv(uploadDir, (err) => {
-//         if (err)
-//             return res.status(500).send(err);
-//         res.send('File uploaded!');
-//     });
-
-// })
+ 
 
 
 //images
