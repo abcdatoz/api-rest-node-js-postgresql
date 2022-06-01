@@ -36,6 +36,16 @@ db.grupo = require("../models/grupoModel.js")(sequelize,Sequelize);
 db.producto = require("../models/productoModel.js")(sequelize, Sequelize);
 db.articulo = require("../models/articuloModel.js")(sequelize, Sequelize);
 
+
+db.categoria = require('../models/categoriaModel')(sequelize,Sequelize);
+db.troductos = require('../models/troductoModel')(sequelize,Sequelize);
+db.mesero = require('../models/meseroModel')(sequelize,Sequelize);
+db.orden = require('../models/ordenModel')(sequelize,Sequelize);
+db.ordenDetalle = require('../models/ordenDetalleModel')(sequelize,Sequelize);
+db.preorden = require('../models/preordenModel')(sequelize,Sequelize);
+db.preordenDetalle = require('../models/preordenDetalleModel')(sequelize,Sequelize);
+
+
 db.role.belongsToMany(db.user,{ 
     through: "user_roles",
     foreignKey: "roleId",
