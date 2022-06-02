@@ -110,5 +110,6 @@ module.exports = {
     getProductoImagenes: getProductoImagenes,
     getImagenesByProducto: getImagenesByProducto,
     getProductoImagenById: getProductoImagenById,    
+    createProductoImagen: createProductoImagen,
     removeProductoImagen: removeProductoImagen
 }
