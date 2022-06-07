@@ -17,7 +17,7 @@ module.exports = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: "W3st3rn",
-    DB: "aerials",
+    DB: "atwa",
     dialect: "mysql",
     pool: {
       max: 5,

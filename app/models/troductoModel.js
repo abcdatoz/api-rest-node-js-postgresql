@@ -20,6 +20,6 @@ module.exports = (sequelize, Sequelize) => {
         categoriaId:        { type: Sequelize.UUID, allowNull: false }        
     });
 
-    return Troductos;
+    return Troducto;
     
 }
