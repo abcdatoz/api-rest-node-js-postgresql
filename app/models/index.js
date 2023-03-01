@@ -46,6 +46,14 @@ db.preorden = require('../models/preordenModel')(sequelize,Sequelize);
 db.preordenDetalle = require('../models/preordenDetalleModel')(sequelize,Sequelize);
 
 
+
+db.estado = require('../models/estadoModel.js')(sequelize, Sequelize);
+db.municipio = require('../models/municipioModel.js')(sequelize, Sequelize);
+
+db.cliente = require('../models/clienteModel.js')(sequelize, Sequelize);
+db.clienteDatosGenerales = require('../models/clienteDatosGeneralesModel.js')(sequelize, Sequelize);
+db.clienteDatosEntregas = require('../models/clienteDatosEntregaModel.js')(sequelize, Sequelize);
+
 db.role.belongsToMany(db.user,{ 
     through: "user_roles",
     foreignKey: "roleId",
@@ -59,7 +67,7 @@ db.user.belongsToMany(db.role,{
 });
 
 
-console.log(db)
+
 
 db.user.hasMany(db.bug,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 db.user.hasMany(db.solution,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
@@ -67,11 +75,39 @@ db.user.hasMany(db.comment, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 db.user.hasMany(db.grupo,   { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 db.user.hasMany(db.producto,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
 
+db.user.hasMany(db.estado,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.municipio,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.cliente,{ onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.clienteDatosGenerales, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.user.hasMany(db.clienteDatosEntregas, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+
 db.bug.belongsTo(db.user);
 db.solution.belongsTo(db.user);
 db.comment.belongsTo(db.user);
 db.grupo.belongsTo(db.user);
 db.producto.belongsTo(db.user);
+
+
+db.estado.belongsTo(db.user);
+db.municipio.belongsTo(db.user);
+db.cliente.belongsTo(db.user);
+db.clienteDatosGenerales.belongsTo(db.user);
+db.clienteDatosEntregas.belongsTo(db.user);
+
+db.estado.hasMany(db.municipio,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.estado.hasMany(db.clienteDatosGenerales,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.estado.hasMany(db.clienteDatosEntregas,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+
+db.municipio.hasMany(db.clienteDatosGenerales,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+db.municipio.hasMany(db.clienteDatosEntregas,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });
+
+
+db.municipio.belongsTo(db.estado);
+db.clienteDatosGenerales.belongsTo(db.estado);
+db.clienteDatosEntregas.belongsTo(db.estado);
+
+db.clienteDatosGenerales.belongsTo(db.municipio);
+db.clienteDatosEntregas.belongsTo(db.municipio);
 
 
 db.bug.hasMany(db.solution,     { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' });

@@ -1,5 +1,6 @@
 const db = require('../models')
 const Bug = db.bug
+const Solution = db.solution
 
 const fs = require('fs')
 const path = require ('path')
@@ -12,7 +13,14 @@ const {status, successMessage, errorMessage} = require('../helpers/status')
 
 const getBugs = async (req,res,next ) => {
 
-    const result = await Bug.findAll({}).catch(next)
+    const result = await Bug
+                            .findAll({
+                                where: {bug_status: 1},
+                                order:  [ ['bug_address', 'ASC'] ],
+                                attributes: ['id','bug_address', 'bug_description', 'bug_date', 'bug_sistema', 'bug_status','bug_image' ]
+
+                            })
+                            .catch(next)
   
     return res.status(status.success).send(result)    
 
@@ -42,7 +50,7 @@ const createBug = async(req,res,next)=> {
         || isEmpty(req.file.filename)
         || isEmpty(bug_date)
         ){
-        errorMessage.error ='Todos los campos son requeridos'
+        errorMessage.error ='Todos los campos son requeridossssss'
         return res.status(status.bad).send(errorMessage)
     }
 
@@ -95,14 +103,7 @@ const updateBug = async(req,res,next)=>{
     }
 }
 
-// const  getFilesInDirectory = () => {
-//     console.log("\nFiles present in directory:");
-//     let files = fs.readdirSync(path.resolve());
-//     let filesz = fs.readdirSync(__dirname);
-//     files.forEach(file => {
-//       console.log(file);
-//     });
-// }
+
 
 const removeBug = async(req,res,next)=> {
 
@@ -112,26 +113,95 @@ const removeBug = async(req,res,next)=> {
     let ruta = path.resolve()
     ruta = ruta + '\\public\\uploads\\' + registro.bug_image
 
+    console.log(1)    
+    
+    let validacion1 = await tieneSoluciones(req.params.id)
+    
+    console.log(2)
+    let validacion2 = await tieneBugs()
 
-    const result = await Bug.destroy({
-        where: {
-            id : req.params.id
-        }
-    }).catch(next)
+    
+    console.log(3)
+    
+
+    
 
 
+    console.log('se va a evaluar validacion1')
+    console.log (validacion1)
+    if (validacion1 != ''){
+        errorMessage.error = validacion1
+        return res.status(status.bad).send(errorMessage)    
+    }else{
+
+    }
+
+
+    if (validacion2 != ''){
+        errorMessage.error = validacion2
+        return res.status(status.bad).send(errorMessage)    
+    }
+
+    console.log('vamo a eliminar al sonofabitch ')
+
+    // const result = await Bug.destroy({
+    //     where: {
+    //         id : req.params.id
+    //     }
+    // }).catch(next)
 
     try {
         fs.unlinkSync(ruta);
     } catch (e) {}
 
 
- 
     return res.status(200).send('la imagen se borro');    
 
-   
 
 }
+
+
+const tieneSoluciones = async(idbug) => {
+
+    console.log('tienesolucionesINIT')
+    const {count, rows} = await Solution.findAndCountAll ({
+        where : {
+            bugId: idbug
+        }
+    })
+
+    
+
+    console.log('tienesolucionesEND')
+    if (count == 0){
+        console.log('el valor de count es' + count)
+        return ''
+    }
+    
+    console.log('el valor de count (afuera) es' + count)
+    return 'No se puede eliminar el registro por x'   
+
+}
+
+const tieneBugs = async () => {
+
+
+    console.log('tienebugsINIT')
+    const {count, rows} = await Bug.findAndCountAll ({
+        where : {
+            bug_status: 1
+        }
+    })
+
+    if (count == 0)
+        return ''
+    
+    
+    console.log('tienebugsEND')
+    return 'No se puede eliminar el registro por x'   
+
+}
+
 
 
 

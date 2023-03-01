@@ -3,9 +3,9 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const app = express()
-
  
 
+// app.use(express.static('public'))
 app.use(express.static('public'))
 
 let corsOptions = { origin: false }
@@ -19,16 +19,12 @@ const Role = db.role;
 
 
 
- 
- 
 
-/*
- db.sequelize.sync({force:true})
+    db.sequelize.sync({force:true})
      .then(()=>{ 
          console.log("Drop and Resync Db");        
           initial()
      });
-*/
 
 
  
@@ -45,7 +41,7 @@ app.use(function (req, res, next) {
  
 
 
-app.use('/resources',express.static(__dirname + '/public/uploads'));
+app.use('/api/resources',express.static(__dirname + '/public/uploads'));
 
 app.get('/',(req,res)=>{ res.json({messsage:'Welcome to the jungle...'}) })
 

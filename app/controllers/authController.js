@@ -51,6 +51,7 @@ exports.createWaitress =(req,res) => {
         Role.findAll ({
             where: {
                 name: 'moderator'
+                
             }
         }).then (roles => {
             user.setRoles(roles).then(()=> {

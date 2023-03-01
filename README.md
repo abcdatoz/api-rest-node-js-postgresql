@@ -89,3 +89,100 @@ Api built with node, express, JWT,sequelize,postgresql
 
 ## License
    None for now.
+
+
+   <!-- 
+    users
+
+    restaurant
+        - categorias
+        - productos
+        - productosimagenes
+        - meseros
+        - ordenes
+        - preordenes
+
+    categorias
+        -productos        
+
+    productos
+        productosimagenes
+        ordenesdetalles
+        preordenesdetalles
+    
+    meseros
+        ordenes
+
+
+
+    ordenes
+        ordenesdetalles
+
+    preordenes
+        preordenesdetalles
+
+
+administrator
+    podra
+
+    restaurant
+        crear  (1-3)
+        modificar el nombre, direccion
+        darlo de baja
+        eliminarlo
+            se tendria que eliminar todos los registros de todas las tablas.
+
+    categorias
+        crear
+        modificar
+        darla de baja
+        eliminar
+            - si no tiene productos
+            - si tiene productos, quedarian volando (guardar bitacora de eliminacion)
+
+    productos
+        crear
+        modificar
+        dar de baja, desactivar
+        eliminar
+            - si no esta en detalles de ordenes o preordenes
+            - si estuviera, solo se deberia dar de baja
+
+            * si se elimina, hay que eliminar la foto
+
+
+    meseros
+        crear
+        modificar
+        dar de baja
+        eliminar
+            en caso de que no haya registros en ordenes
+        
+    ordenes.
+        crear  NO
+        modificar NO
+        dar de baja     SI
+        eliminar        SI
+
+    ordenesdetalles
+        crear   NO
+        modificar NO
+        dar de baja SI
+        eliminar    SI
+
+    PREordenes.
+        crear       NO
+        modificar   NO
+        dar de baja     SI
+        eliminar        SI
+
+    preordenesdetalles
+        crear           NO
+        modificar       NO
+        dar de baja SI
+        eliminar    SI
+    
+
+
+
+    -->
