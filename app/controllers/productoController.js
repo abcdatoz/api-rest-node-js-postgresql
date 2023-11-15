@@ -35,7 +35,8 @@ const getProductoById = async(req,res, next)=>{
 
 const createProducto = async(req,res,next) => {
      
-
+    console.log('body')
+    console.log(req.body)
     const {clave, nombre, grupo} = req.body
 
     if (isEmpty(clave) || isEmpty(nombre) || isEmpty(grupo)){
@@ -47,7 +48,7 @@ const createProducto = async(req,res,next) => {
         clave: clave,
         nombre: nombre,
         grupoId: grupo,
-        userId: req.userId
+        userId: '46009f18-881b-4206-885f-aae0c8086234'//req.userId
     }).catch(next)
 
     

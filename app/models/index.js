@@ -54,6 +54,10 @@ db.cliente = require('../models/clienteModel.js')(sequelize, Sequelize);
 db.clienteDatosGenerales = require('../models/clienteDatosGeneralesModel.js')(sequelize, Sequelize);
 db.clienteDatosEntregas = require('../models/clienteDatosEntregaModel.js')(sequelize, Sequelize);
 
+
+db.comercio = require('../models/comercioModel.js')(sequelize, Sequelize);
+db.comercioPedido = require('../models/comercioPedidoModel.js')(sequelize, Sequelize);
+
 db.role.belongsToMany(db.user,{ 
     through: "user_roles",
     foreignKey: "roleId",

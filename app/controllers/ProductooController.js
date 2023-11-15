@@ -39,7 +39,9 @@ const get_ProductoById = async (req,res,next)=>{
 
     if (result){
         
-        return res.status(status.success).send(result)
+        //return res.status(status.success).send(result)
+        errorMessage.error = 'El registro no fue localizado'
+        return res.status(status.bad).send(errorMessage)
 
     }else{
         errorMessage.error = 'El registro no fue localizado'

@@ -18,15 +18,16 @@ const db = require("./app/models");
 const Role = db.role;
 
 
-/*
 
-    db.sequelize.sync({force:true})
-     .then(()=>{ 
-         console.log("Drop and Resync Db");        
-          initial()
-     });
 
-*/
+    // // db.sequelize.sync({force:true})
+    // db.sequelize.sync({force:false})
+    //  .then(()=>{ 
+    //      console.log("Drop and Resync Db");        
+    //     //   initial()
+    //  });
+
+
  
 
 
@@ -56,6 +57,7 @@ require('./app/routes/bugRoutes')(app)
 require('./app/routes/solutionRoutes')(app)
 require('./app/routes/commentRoutes')(app)
 
+require('./app/routes/comercioRoutes')(app)
 
 
 
