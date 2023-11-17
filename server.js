@@ -20,7 +20,7 @@ const Role = db.role;
 
 
 
-    // // db.sequelize.sync({force:true})
+    // db.sequelize.sync({force:true})
     // db.sequelize.sync({force:false})
     //  .then(()=>{ 
     //      console.log("Drop and Resync Db");        
@@ -59,7 +59,8 @@ require('./app/routes/commentRoutes')(app)
 
 require('./app/routes/comercioRoutes')(app)
 
-
+require('./app/routes/categoriaPlatilloRoutes')(app)
+require('./app/routes/platilloRoutes')(app)
 
  
 

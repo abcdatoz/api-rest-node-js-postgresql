@@ -58,6 +58,10 @@ db.clienteDatosEntregas = require('../models/clienteDatosEntregaModel.js')(seque
 db.comercio = require('../models/comercioModel.js')(sequelize, Sequelize);
 db.comercioPedido = require('../models/comercioPedidoModel.js')(sequelize, Sequelize);
 
+db.categoriaPlatillo = require('../models/categoriaPlatilloModel.js')(sequelize, Sequelize);
+db.platillo = require('../models/platilloModel.js')(sequelize, Sequelize);
+
+
 db.role.belongsToMany(db.user,{ 
     through: "user_roles",
     foreignKey: "roleId",
@@ -127,6 +131,9 @@ db.producto.belongsTo(db.grupo);
 db.producto.hasMany(db.articulo, { onDelete: 'RESTRICT',    onUpdate: 'RESTRICT' })
 db.articulo.belongsTo(db.producto)
 
+
+db.categoriaPlatillo.hasMany(db.platillo, {onDelete: 'RESTRICT', onUpdate: 'RESTRICT' })
+db.platillo.belongsTo(db.categoriaPlatillo)
 
 
 db.ROLES= ["user","admin","moderator"];

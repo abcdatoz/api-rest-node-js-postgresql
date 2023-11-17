@@ -10,3 +10,6 @@ module.exports = (sequelize, Sequelize) => {
 
     return Articulo;
 }
+
+
+
