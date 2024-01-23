@@ -20,15 +20,92 @@ const Role = db.role;
 
 
 
+
     // db.sequelize.sync({force:true})
-    // db.sequelize.sync({force:false})
+    // db.sequelize.sync({force:true})
     //  .then(()=>{ 
     //      console.log("Drop and Resync Db");        
-    //     //   initial()
+    //        initial()
     //  });
 
 
+
+
+// const cron = require('node-cron');
+// const moment = require('moment')
+// const fs = require('fs')
+
+// //const spawn = require('child_process').spawn
+// //console.log(spawn)
+
+
+// const { spawn } = require('child_process');
+
+// let file = "backups/" + moment().format('YYYY-MM-DD_hh_mm_ss_a') + '.sql'
+//  const wstream = fs.createWriteStream(file)
+
+
+
+// let DATABASE_NAME = 'atwa'
+// let mysqldump = spawn('mysqldump', [
+//             `--host=localhost`,
+//             `--port=3306`,
+//             `--user=root`,
+//             `--password=W3st3rn`,
+//             DATABASE_NAME
+//         ])
+
+//         mysqldump
+//             .stdout
+//             .pipe(wstream)
+//             .on('finish', function () {
+//                 console.log('Completed')
+//             })
+//             .on('error', function (err) {
+//                 console.error(err)
+//             })
+
+
+
+// cron.schedule('*/1 * * * *',() => {
+
+//     let file = "backups/" + moment().format('YYYY-MM-DD_hh_mm_ss_a') + '.sql'
+//     const wstream = fs.createWriteStream(file)
+    
+//     const mysqldump  = spawn('mysqldump',['-u','root','-pW3st3rn', 'atwa'])
+
+//     const dump = spawn('mysqldump', [
+//     '-u',
+//     'root',
+//     '-pW3st3rn',
+//     'atwa',
+// ])
+
+
+
+
+    // dump
+    //     .stdout
+    //     .pipe(wstream)
+    //     .on('finish', function () {
+    //         console.log('Completed')
+    //     })
+    //     .on('error', function (err) {
+    //         console.log(err)
+    //     })
+
  
+
+
+    // fs.appendFile(file, 'holamundo', (err) => {
+    //     if (err) {
+    //         console.log(err)
+    //     }else{   
+    //         console.log('todo ok')
+    //     }
+    // })
+    
+//}) 
 
 
 app.use(function (req, res, next) {

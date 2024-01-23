@@ -30,20 +30,83 @@ const getGrupoById = async (req, res, next) => {
 
 }
 
+/**
+ * 
+ * Ventas.max('folio', { where: { estado: 'activo' } })
+  .then((maxFolio) => {
+    const nuevoFolio = maxFolio + 1;
+    return Ventas.create({ folio: nuevoFolio, estado: 'activo' });
+  })
+  .then((nuevoRegistro) => {
+    console.log('Folio creado:', nuevoRegistro.folio);
+  })
+  .catch((error) => {
+    console.error('Error al obtener el siguiente folio:', error);
+  });
+ * 
+
+  const ultimoFolio = await Ventas.findOne({
+  where: {
+    folio: {
+      [Op.like]: 'GP-%' // Utiliza el operador "like" para buscar folios que empiecen con "GP"
+    }
+  },
+  order: [
+    ['folio', 'DESC'] // Ordena de forma descendente para obtener el último folio
+  ]
+});
+
+
+
+let siguienteConsecutivo = 1;
+if (ultimoFolio) {
+  const ultimoNumero = parseInt(ultimoFolio.folio.substr(-4), 10);
+  siguienteConsecutivo = ultimoNumero + 1;
+}
+
+const nuevoFolio = `GP-2024-${String(siguienteConsecutivo).padStart(4, '0')}`;
+console.log('Siguiente folio:', nuevoFolio);
+
+*/
+
+
+const getFolio = async() => {
+
+    const ultimoFolio = await Grupo.findOne({order: [['folio','DESC']]})
+
+    let siguienteConsecutivo = 1;
+
+    if(ultimoFolio){
+        const ultimonumero = parseInt(ultimoFolio.folio.substr(-5),10)
+        siguienteConsecutivo = ultimonumero + 1;
+    }
+
+    const nuevoFolio = `GP-2024-${String(siguienteConsecutivo).padStart(5,'0')}`
+    
+    return nuevoFolio
+
+}
 
 
 const createGrupo = async (req,res, next) => {
 
         const {clave, nombre} = req.body;
 
-        if( isEmpty(clave) || isEmpty(nombre)){
+        if( isEmpty(clave) || isEmpty(nombre)  ){
             errorMessage.error ='Todos los campos son requeridos'
             return res.status(status.bad).send(errorMessage)
         }
 
+        
+
+        
+        let newFolio = await getFolio()
+
+
         const results = await Grupo.create({
             clave: clave,
             nombre: nombre,
+            folio: newFolio,
             userId: req.userId
         }).catch(next)
 

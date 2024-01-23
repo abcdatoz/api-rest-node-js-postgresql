@@ -7,10 +7,37 @@ const path = require ('path')
 const { isEmpty } = require('../helpers/validations')
 const { status, successMessage, errorMessage } = require('../helpers/status')
 
+const Op = require('Sequelize').Op
+
 const getPlatillos = async(req,res,next) => {
-    const result = await Platillo.findAll({}).catch(next)
+    
+    
+
+    // const result = await Platillo.findAll({
+    //                                 where: {
+    //                                     [Op.or]: [
+    //                                                   { categoriasPlatilloId: 4 },
+    //                                                   { id: 
+    //                                                     {
+    //                                                         [Op.gte]: 0
+    //                                                     }
+    //                                                   }
+    //                                                 ]                                        
+    //                                 }
+    //}).catch(next)
+
 
     
+    const result = await Platillo.findAll({}).catch(next)    
+
+    let suma = 0
+    result.forEach(item => {
+        suma += item.dataValues.id 
+        
+    })
+
+    console.log(suma)
+
     return res.status(status.success).send(result)
 }
 

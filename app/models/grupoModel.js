@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize)=>{
         },
         nombre:{
             type: Sequelize.STRING
+        },
+        folio:{
+            type: Sequelize.STRING
         }
     });
 

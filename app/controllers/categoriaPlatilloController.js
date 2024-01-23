@@ -28,8 +28,7 @@ const getCategorias = async (req,res,next ) => {
 const createCategoria = async(req,res,next)=> {
     const {clave, nombre}  = req.body
       
-      console.log(req.body)
-      console.log(nombre)
+
 
     if( isEmpty(clave) || isEmpty(nombre)){
         errorMessage.error ='Todos los campos son requeridos'
