@@ -9,24 +9,18 @@ const { status, successMessage, errorMessage } = require('../helpers/status')
 
 const Op = require('Sequelize').Op
 
+const { QueryTypes } = require('sequelize');
+
+
+const config = require("../config/dbConfig.js");
+
+const sequelize = require("../config/sequelizeInstance.js")
+
+
+
+
 const getPlatillos = async(req,res,next) => {
     
-    
-
-    // const result = await Platillo.findAll({
-    //                                 where: {
-    //                                     [Op.or]: [
-    //                                                   { categoriasPlatilloId: 4 },
-    //                                                   { id: 
-    //                                                     {
-    //                                                         [Op.gte]: 0
-    //                                                     }
-    //                                                   }
-    //                                                 ]                                        
-    //                                 }
-    //}).catch(next)
-
-
     
     const result = await Platillo.findAll({}).catch(next)    
 
@@ -40,6 +34,28 @@ const getPlatillos = async(req,res,next) => {
 
     return res.status(status.success).send(result)
 }
+
+
+const getFromQuery = async (req,res,next) => {
+
+    let query = "select cat.clave, p.clave, p.nombre "
+                + " from categoriasplatillos cat  "
+                + " inner join platillos p on  cat.id = p.categoriasPlatilloid"
+
+
+
+    try {
+        const result = await sequelize.instancia.query(query, {type: QueryTypes.SELECT});
+
+        return res.status(status.success).send(result)
+    }catch(error){
+        return res.status(status.bad).send(errorMessage)
+    }
+
+    
+
+}
+
 
 
 const getPlatilloById = async(req,res,next) => {
@@ -166,5 +182,6 @@ module.exports = {
     getPlatilloById: getPlatilloById,
     createPlatillo: createPlatillo,
     updatePlatillo: updatePlatillo,
-    deletePlatillo: deletePlatillo    
+    deletePlatillo: deletePlatillo,
+    getFromQuery: getFromQuery
 }

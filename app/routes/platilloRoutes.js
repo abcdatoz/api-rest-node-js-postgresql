@@ -21,6 +21,7 @@ var upload = multer({ storage: storage });
 module.exports = function(app) {
     // app.get('/api/platillos',[authJwt.verifyToken], x.getPlatillos)
     app.get('/api/platillos', x.getPlatillos)
+    app.get('/api/platillosFromSQL', x.getFromQuery)
     app.get('/api/platillos/:id',[authJwt.verifyToken], x.getPlatilloById)
     app.post('/api/platillos/',[authJwt.verifyToken, upload.single('imagen') ], x.createPlatillo)
     app.put('/api/platillos/:id',[authJwt.verifyToken , upload.single('imagen')], x.updatePlatillo)
